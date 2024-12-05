@@ -9,34 +9,15 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fetch all history for proper deployment
       
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           
-      - name: Debug Directory Structure
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Repository root contents:"
-          ls -la
-          echo "Frontend directory exists: $(test -d frontend && echo 'Yes' || echo 'No')"
-          echo "Frontend contents:"
-          ls -la frontend/
-          echo "Package.json exists: $(test -f frontend/hullchat/package.json && echo 'Yes' || echo 'No')"
-          echo "Package.json contents:"
-          cat frontend/hullchat/package.json
-          
       - name: Install Dependencies
         run: |
-          if [ ! -f "frontend/hullchat/package.json" ]; then
-            echo "Error: package.json not found!"
-            exit 1
-          fi
           cd frontend/hullchat
-          echo "Installing dependencies in: $(pwd)"
           npm install
       
       - name: Build
@@ -44,21 +25,10 @@ jobs:
           cd frontend/hullchat
           npm run build
         
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      
       - name: Deploy to Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           cd frontend/hullchat
-          echo "Linking Vercel project..."
-          vercel link --token=${{ secrets.VERCEL_TOKEN }} --yes
-          echo "Pulling Vercel environment..."
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          echo "Building project..."
-          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-          echo "Deploying to Vercel..."
-          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+          npx vercel deploy --token ${{ secrets.VERCEL_TOKEN }} --prod --yes
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
