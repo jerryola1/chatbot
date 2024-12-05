@@ -9,37 +9,49 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for proper deployment
       
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           
-      - name: Debug Directory
+      - name: Debug Directory Structure
         run: |
-          pwd
+          echo "Current directory: $(pwd)"
+          echo "Repository root contents:"
           ls -la
-          cd frontend/hullchat && ls -la
+          echo "Frontend directory exists: $(test -d frontend && echo 'Yes' || echo 'No')"
+          echo "Frontend contents:"
+          ls -la frontend/
+          echo "Package.json exists: $(test -f frontend/hullchat/package.json && echo 'Yes' || echo 'No')"
+          echo "Package.json contents:"
+          cat frontend/hullchat/package.json
           
       - name: Install Dependencies
-        working-directory: frontend/hullchat
-        run: npm install
+        run: |
+          if [ ! -f "frontend/hullchat/package.json" ]; then
+            echo "Error: package.json not found!"
+            exit 1
+          fi
+          cd frontend/hullchat
+          echo "Installing dependencies in: $(pwd)"
+          npm install
       
       - name: Build
-        working-directory: frontend/hullchat
-        run: npm run build
+        run: |
+          cd frontend/hullchat
+          npm run build
         
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       
-      - name: Pull Vercel Environment Information
-        working-directory: frontend/hullchat
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      
-      - name: Build Project Artifacts
-        working-directory: frontend/hullchat
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      
-      - name: Deploy Project Artifacts to Vercel
-        working-directory: frontend/hullchat
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          cd frontend/hullchat
+          vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes

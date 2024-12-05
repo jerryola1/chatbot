@@ -1,0 +1,108 @@
+.home-container {
+    max-width: 430px;
+    margin: 0 auto;
+    height: 100%;
+    background: #1c1c1e;
+    border-radius: 40px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-container ion-header {
+    display: contents;
+    background: transparent;
+}
+
+.home-container ion-toolbar {
+    --background: none;
+    --border-style: none;
+    --border-width: 0;
+}
+
+.home-container ion-title {
+    text-align: center;
+    font-weight: bold;
+    padding-inline: 0;
+}
+
+.welcome-section {
+    text-align: center;
+    padding: 20px 0;
+    color: #ffffff;
+}
+
+.welcome-section h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.welcome-section p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 20px 0;
+}
+
+.feature-card {
+    --background: #2c2c2e;
+    margin: 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-2px);
+}
+
+.feature-card ion-card-content {
+    padding: 16px;
+    text-align: center;
+}
+
+.feature-icon {
+    font-size: 32px;
+    color: #8e4dff;
+    margin-bottom: 12px;
+}
+
+.feature-card h2 {
+    font-size: 16px;
+    color: #ffffff;
+    margin: 8px 0;
+}
+
+.feature-card p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+.start-chat-section {
+    padding: 20px 0;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+}
+
+.start-chat-button {
+    --background: #8e4dff;
+    --background-hover: #7a3dd9;
+    --background-activated: #7a3dd9;
+    --border-radius: 25px;
+    margin: 0;
+}
+
+@media (max-width: 430px) {
+    .home-container {
+        border-radius: 0;
+        padding: 16px;
+    }
+}
