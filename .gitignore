@@ -1,0 +1,44 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Production
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.env/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Modal
+.modal/
+
+# Vercel
+.vercel
+
+hull-chat-api/
+hf-space/
+modal-api/llama_app.py
+modal-api/trtllm_app.py
+modal-api/.env
+
+maintenance_guide.txt
+
