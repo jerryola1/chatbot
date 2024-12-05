@@ -6,9 +6,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend/hullchat
     
     steps:
       - uses: actions/checkout@v3
@@ -18,25 +15,31 @@ jobs:
         with:
           node-version: '18'
           
-      - name: List directory contents
+      - name: Debug Directory
         run: |
           pwd
           ls -la
+          cd frontend/hullchat && ls -la
           
       - name: Install Dependencies
+        working-directory: frontend/hullchat
         run: npm install
       
       - name: Build
+        working-directory: frontend/hullchat
         run: npm run build
         
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       
       - name: Pull Vercel Environment Information
+        working-directory: frontend/hullchat
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       
       - name: Build Project Artifacts
+        working-directory: frontend/hullchat
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       
       - name: Deploy Project Artifacts to Vercel
+        working-directory: frontend/hullchat
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
