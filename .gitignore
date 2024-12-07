@@ -12,6 +12,10 @@ build/
 .env.local
 .env*.local
 
+# Database credentials
+src/config/database.py
+backend/src/config/database.py
+
 # Debug
 npm-debug.log*
 yarn-debug.log*
@@ -22,6 +26,10 @@ __pycache__/
 *.py[cod]
 venv/
 .env/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
 
 # IDE
 .vscode/*
@@ -41,4 +49,16 @@ modal-api/trtllm_app.py
 modal-api/.env
 
 maintenance_guide.txt
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# System Files
+.DS_Store
+Thumbs.db
 
